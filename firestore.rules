@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User root document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Registered or paired hardware devices
+      match /devices/{deviceId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+        
+        // Speed measurements stream
+        match /measurements/{measurementId} {
+          allow read: if request.auth != null && request.auth.uid == userId;
+          allow create: if request.auth != null 
+                        && request.auth.uid == userId
+                        && request.resource.data.testNumber is number
+                        && request.resource.data.currentSpeedKmph is number
+                        && request.resource.data.distanceMm is number
+                        && request.resource.data.elapsedTimeUs is number;
+          allow update, delete: if request.auth != null && request.auth.uid == userId;
+        }
+      }
+    }
+    
+    // Global fallback rule - deny anything outside authenticated user trees
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
