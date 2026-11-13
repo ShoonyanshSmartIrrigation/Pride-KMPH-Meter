@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pride_kmph_meter/core/utils/speed_formatter.dart';
 import 'package:pride_kmph_meter/features/measurement/domain/measurement_status.dart';
 import 'package:pride_kmph_meter/features/measurement/presentation/widgets/instrument_display_panel.dart';
+import 'package:pride_kmph_meter/features/measurement/presentation/widgets/modern_header_widget.dart';
 import 'package:pride_kmph_meter/features/measurement/presentation/widgets/modern_speedometer_card.dart';
 
 void main() {
@@ -105,5 +106,21 @@ void main() {
     // Verify widget rendered cleanly without RenderFlex overflow exception
     expect(tester.takeException(), isNull);
     expect(find.text('Connect'), findsOneWidget);
+  });
+
+  testWidgets('ModernHeaderWidget renders compact height and branding correctly',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: ModernHeaderWidget(),
+        ),
+      ),
+    );
+
+    expect(find.text('Pride KMPH Meter'), findsOneWidget);
+    expect(find.text('Precision Speed Monitoring'), findsOneWidget);
+    expect(find.byIcon(Icons.speed_rounded), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

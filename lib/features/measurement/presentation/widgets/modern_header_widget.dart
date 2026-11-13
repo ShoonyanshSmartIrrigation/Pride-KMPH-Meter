@@ -17,7 +17,7 @@ class ModernHeaderWidget extends StatelessWidget {
         ClipPath(
           clipper: _HeaderAccentWaveClipper(),
           child: Container(
-            height: topPadding + 112,
+            height: topPadding + 84,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF0052D4), Color(0xFF00C6FF)],
@@ -32,7 +32,7 @@ class ModernHeaderWidget extends StatelessWidget {
         ClipPath(
           clipper: _HeaderMainWaveClipper(),
           child: Container(
-            height: topPadding + 104,
+            height: topPadding + 78,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [AppColors.modernNavyStart, AppColors.modernNavyEnd],
@@ -42,28 +42,28 @@ class ModernHeaderWidget extends StatelessWidget {
             ),
             padding: EdgeInsets.only(
               top: topPadding + 2,
-              left: 18,
-              right: 18,
-              bottom: 10,
+              left: 16,
+              right: 16,
+              bottom: 8,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Rounded speedometer logo badge
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: 38,
+                  height: 38,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFF0066FF), Color(0xFF00C6FF)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF00C6FF).withValues(alpha: 0.35),
-                        blurRadius: 8,
+                        blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -71,10 +71,10 @@ class ModernHeaderWidget extends StatelessWidget {
                   child: const Icon(
                     Icons.speed_rounded,
                     color: Colors.white,
-                    size: 26,
+                    size: 22,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 10),
 
                 // Title & Subtitle
                 const Expanded(
@@ -87,19 +87,19 @@ class ModernHeaderWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 19,
+                          fontSize: 17,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                           letterSpacing: -0.3,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: 1),
                       Text(
                         'Precision Speed Monitoring',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFFC2D9F2),
                         ),
@@ -121,20 +121,20 @@ class _HeaderMainWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, size.height - 18);
+    path.lineTo(0, size.height - 14);
 
     // Flowing organic wave contour across the header base
     path.quadraticBezierTo(
       size.width * 0.28,
       size.height,
       size.width * 0.58,
-      size.height - 10,
+      size.height - 7,
     );
     path.quadraticBezierTo(
       size.width * 0.84,
-      size.height - 20,
+      size.height - 15,
       size.width,
-      size.height - 8,
+      size.height - 6,
     );
 
     path.lineTo(size.width, 0);
@@ -151,19 +151,19 @@ class _HeaderAccentWaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, size.height - 12);
+    path.lineTo(0, size.height - 9);
 
     path.quadraticBezierTo(
       size.width * 0.32,
-      size.height + 4,
+      size.height + 3,
       size.width * 0.62,
-      size.height - 6,
+      size.height - 5,
     );
     path.quadraticBezierTo(
       size.width * 0.86,
-      size.height - 14,
+      size.height - 11,
       size.width,
-      size.height - 4,
+      size.height - 3,
     );
 
     path.lineTo(size.width, 0);

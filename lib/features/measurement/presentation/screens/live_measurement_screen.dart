@@ -196,45 +196,6 @@ class LiveMeasurementScreen extends ConsumerWidget {
             // 2. INTERACTIVE PHYSICAL MEASUREMENT TIMELINE
             LiveTimelineWidget(status: liveState.status),
 
-            const SizedBox(height: 16),
-
-            // 3. SENSOR GPIO STATUS CARD
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'REAL-TIME HARDWARE SENSOR PINS',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.8,
-                        color: AppColors.deepNavy,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    _buildPinStatus(
-                      title: 'START Optical Gate',
-                      gpio: 'GPIO 27',
-                      mode: 'INPUT_PULLUP (Falling Edge Interrupt)',
-                      isActive:
-                          liveState.status == HardwareMeasurementStatus.measuring,
-                    ),
-                    const Divider(height: 20),
-                    _buildPinStatus(
-                      title: 'STOP Optical Gate',
-                      gpio: 'GPIO 33',
-                      mode: 'INPUT_PULLUP (Falling Edge Interrupt)',
-                      isActive:
-                          liveState.status == HardwareMeasurementStatus.completed,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
             const SizedBox(height: 24),
           ],
         ),
@@ -270,79 +231,6 @@ class LiveMeasurementScreen extends ConsumerWidget {
               color: color,
               fontWeight: FontWeight.w700,
             ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPinStatus({
-    required String title,
-    required String gpio,
-    required String mode,
-    required bool isActive,
-  }) {
-    return Row(
-      children: [
-        Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(
-            color: isActive ? AppColors.connected : Colors.grey.shade400,
-            shape: BoxShape.circle,
-            boxShadow: [
-              if (isActive)
-                BoxShadow(
-                  color: AppColors.connected.withValues(alpha: 0.5),
-                  blurRadius: 8,
-                  spreadRadius: 2,
-                ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.deepNavy,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      gpio,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontFamily: 'monospace',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                mode,
-                style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-              ),
-            ],
           ),
         ),
       ],
