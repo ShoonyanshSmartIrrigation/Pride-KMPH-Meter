@@ -55,7 +55,7 @@ class DashboardScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
 
                   // BLE Connection Status Floating Pill
                   ModernStatusPill(
@@ -63,7 +63,7 @@ class DashboardScreen extends ConsumerWidget {
                     deviceName: deviceName,
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
 
                   // Hero Speedometer Radial Gauge Card
                   ModernSpeedometerCard(
@@ -71,7 +71,7 @@ class DashboardScreen extends ConsumerWidget {
                     speedUnit: settings.speedUnit,
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
 
                   // Metrics Row: Previous Speed & Test Distance
                   Row(
@@ -99,12 +99,12 @@ class DashboardScreen extends ConsumerWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
 
                   // Measurement Time Card (Full Width)
                   _buildTimeCard(elapsedTimeUs: liveState.elapsedTimeUs),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
 
                   // Primary Action Buttons Row (Live Testing & Analytics)
                   Row(
