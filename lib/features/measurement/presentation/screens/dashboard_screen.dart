@@ -8,7 +8,6 @@ import '../../../../core/utils/speed_formatter.dart';
 import '../../../ble/presentation/controllers/ble_controller.dart';
 import '../../presentation/controllers/measurement_controller.dart';
 import '../../../settings/presentation/controllers/settings_controller.dart';
-import '../widgets/bottom_wave_widget.dart';
 import '../widgets/modern_header_widget.dart';
 import '../widgets/modern_speedometer_card.dart';
 import '../widgets/modern_status_pill.dart';
@@ -219,8 +218,7 @@ class DashboardScreen extends ConsumerWidget {
               ),
             ),
 
-            // 3. Flowing Aesthetic Bottom Wave
-            const BottomWaveWidget(height: 65),
+            const SizedBox(height: 24),
           ],
         ),
       ),
