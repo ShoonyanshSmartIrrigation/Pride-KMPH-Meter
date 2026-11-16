@@ -120,30 +120,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               controller: resetEmailController,
               keyboardType: TextInputType.emailAddress,
               style: GoogleFonts.inter(
-                fontSize: 14,
+                fontSize: 15.5,
                 fontWeight: FontWeight.w500,
                 color: AppColors.deepNavy,
               ),
               decoration: InputDecoration(
                 hintText: 'Email address',
                 hintStyle: GoogleFonts.inter(
-                  fontSize: 14,
+                  fontSize: 15,
                   color: const Color(0xFF8F9DAE),
                 ),
                 prefixIcon: const Icon(Icons.mail_outline_rounded,
-                    color: Color(0xFF6B7B8F), size: 20),
+                    color: Color(0xFF6B7B8F), size: 23),
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                   borderSide: const BorderSide(color: Color(0xFFDCE6F2)),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                   borderSide: const BorderSide(color: Color(0xFFDCE6F2)),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(14),
                   borderSide:
                       const BorderSide(color: Color(0xFF0066FF), width: 1.5),
                 ),
@@ -281,7 +281,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               keyboardType: TextInputType.emailAddress,
                               autocorrect: false,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF0A2540),
                               ),
@@ -289,36 +289,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 hintText: 'Email / Username',
                                 hintStyle: GoogleFonts.inter(
                                   color: const Color(0xFF8F9DAE),
-                                  fontSize: 14,
+                                  fontSize: 15.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.person_outline_rounded,
                                   color: Color(0xFF6B7B8F),
-                                  size: 21,
+                                  size: 24,
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                                  horizontal: 18,
+                                  vertical: 17,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF0066FF),
                                     width: 1.6,
@@ -333,14 +333,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               },
                             ),
 
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 14),
 
                             // Input 2: Password
                             TextFormField(
                               controller: _passwordController,
                               obscureText: _obscurePassword,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF0A2540),
                               ),
@@ -348,13 +348,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 hintText: 'Password',
                                 hintStyle: GoogleFonts.inter(
                                   color: const Color(0xFF8F9DAE),
-                                  fontSize: 14,
+                                  fontSize: 15.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.lock_outline_rounded,
                                   color: Color(0xFF6B7B8F),
-                                  size: 21,
+                                  size: 24,
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -362,7 +362,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
                                     color: const Color(0xFF6B7B8F),
-                                    size: 20,
+                                    size: 22,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -373,25 +373,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                                  horizontal: 18,
+                                  vertical: 17,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF0066FF),
                                     width: 1.6,

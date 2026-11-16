@@ -11,11 +11,7 @@ class ModernHeaderWidget extends StatelessWidget {
   final Widget? action;
   final bool showLogout;
 
-  const ModernHeaderWidget({
-    super.key,
-    this.action,
-    this.showLogout = false,
-  });
+  const ModernHeaderWidget({super.key, this.action, this.showLogout = false});
 
   void _confirmLogout(BuildContext context) {
     showDialog(
@@ -36,14 +32,17 @@ class ModernHeaderWidget extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Cancel',
-                style: TextStyle(color: Color(0xFF6B7B8F))),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Color(0xFF6B7B8F)),
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFD32F2F),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             onPressed: () async {
               Navigator.of(ctx).pop();
@@ -56,8 +55,10 @@ class ModernHeaderWidget extends StatelessWidget {
             },
             child: const Text(
               'Logout',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -135,7 +136,7 @@ class ModernHeaderWidget extends StatelessWidget {
                 const SizedBox(width: 10),
 
                 // Title & Subtitle
-                const Expanded(
+                Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

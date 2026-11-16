@@ -151,7 +151,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               controller: _fullNameController,
                               textCapitalization: TextCapitalization.words,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF0A2540),
                               ),
@@ -159,36 +159,36 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 hintText: 'Full Name',
                                 hintStyle: GoogleFonts.inter(
                                   color: const Color(0xFF8F9DAE),
-                                  fontSize: 14,
+                                  fontSize: 15.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.person_outline_rounded,
                                   color: Color(0xFF6B7B8F),
-                                  size: 21,
+                                  size: 24,
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                                  horizontal: 18,
+                                  vertical: 17,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF0066FF),
                                     width: 1.6,
@@ -203,7 +203,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               },
                             ),
 
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 14),
 
                             // Field 2: Email Address
                             TextFormField(
@@ -211,7 +211,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               keyboardType: TextInputType.emailAddress,
                               autocorrect: false,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF0A2540),
                               ),
@@ -219,36 +219,36 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 hintText: 'Email Address',
                                 hintStyle: GoogleFonts.inter(
                                   color: const Color(0xFF8F9DAE),
-                                  fontSize: 14,
+                                  fontSize: 15.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.mail_outline_rounded,
                                   color: Color(0xFF6B7B8F),
-                                  size: 21,
+                                  size: 24,
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                                  horizontal: 18,
+                                  vertical: 17,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF0066FF),
                                     width: 1.6,
@@ -266,14 +266,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               },
                             ),
 
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 14),
 
                             // Field 3: Password
                             TextFormField(
                               controller: _passwordController,
                               obscureText: _obscurePassword,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF0A2540),
                               ),
@@ -281,13 +281,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 hintText: 'Password',
                                 hintStyle: GoogleFonts.inter(
                                   color: const Color(0xFF8F9DAE),
-                                  fontSize: 14,
+                                  fontSize: 15.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.lock_outline_rounded,
                                   color: Color(0xFF6B7B8F),
-                                  size: 21,
+                                  size: 24,
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -295,7 +295,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
                                     color: const Color(0xFF6B7B8F),
-                                    size: 20,
+                                    size: 22,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -306,25 +306,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                                  horizontal: 18,
+                                  vertical: 17,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF0066FF),
                                     width: 1.6,
@@ -342,14 +342,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               },
                             ),
 
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 14),
 
                             // Field 4: Confirm Password
                             TextFormField(
                               controller: _confirmPasswordController,
                               obscureText: _obscureConfirmPassword,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF0A2540),
                               ),
@@ -357,13 +357,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 hintText: 'Confirm Password',
                                 hintStyle: GoogleFonts.inter(
                                   color: const Color(0xFF8F9DAE),
-                                  fontSize: 14,
+                                  fontSize: 15.5,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.lock_outline_rounded,
                                   color: Color(0xFF6B7B8F),
-                                  size: 21,
+                                  size: 24,
                                 ),
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -371,7 +371,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                         ? Icons.visibility_off_outlined
                                         : Icons.visibility_outlined,
                                     color: const Color(0xFF6B7B8F),
-                                    size: 20,
+                                    size: 22,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -383,25 +383,25 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                                  horizontal: 18,
+                                  vertical: 17,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFFDCE6F2),
                                     width: 1.2,
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(14),
+                                  borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF0066FF),
                                     width: 1.6,
