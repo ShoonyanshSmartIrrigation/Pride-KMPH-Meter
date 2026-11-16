@@ -48,8 +48,8 @@ class DashboardScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 1. Top Curved Deep Navy Header
-            const ModernHeaderWidget(),
+            // 1. Top Curved Deep Navy Header with Logout Option
+            const ModernHeaderWidget(showLogout: true),
 
             // 2. Main Dashboard Content Body
             Padding(

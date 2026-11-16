@@ -1,11 +1,68 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 
 /// Modern top curved header matching the reference visual design.
 /// Features a deep navy gradient, curved organic bottom wave,
-/// brand logo badge, title, subtitle, and settings shortcut.
+/// brand logo badge, title, subtitle, and optional user actions.
 class ModernHeaderWidget extends StatelessWidget {
-  const ModernHeaderWidget({super.key});
+  final Widget? action;
+  final bool showLogout;
+
+  const ModernHeaderWidget({
+    super.key,
+    this.action,
+    this.showLogout = false,
+  });
+
+  void _confirmLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text(
+          'Confirm Logout',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: AppColors.deepNavy,
+          ),
+        ),
+        content: const Text(
+          'Are you sure you want to log out from Pride KMPH Meter?',
+          style: TextStyle(fontSize: 14, color: Color(0xFF6B7B8F)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cancel',
+                style: TextStyle(color: Color(0xFF6B7B8F))),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFD32F2F),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+            ),
+            onPressed: () async {
+              Navigator.of(ctx).pop();
+              try {
+                await FirebaseAuth.instance.signOut();
+              } catch (_) {}
+              if (context.mounted) {
+                context.go('/login');
+              }
+            },
+            child: const Text(
+              'Logout',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +164,22 @@ class ModernHeaderWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                // Action or Logout button
+                if (action != null)
+                  action!
+                else if (showLogout)
+                  IconButton(
+                    icon: const Icon(
+                      Icons.logout_rounded,
+                      color: Colors.white70,
+                      size: 21,
+                    ),
+                    tooltip: 'Log Out',
+                    padding: const EdgeInsets.all(6),
+                    constraints: const BoxConstraints(),
+                    onPressed: () => _confirmLogout(context),
+                  ),
               ],
             ),
           ),
