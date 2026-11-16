@@ -79,7 +79,7 @@ class ModernHeaderWidget extends StatelessWidget {
             height: topPadding + 84,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF0052D4), Color(0xFF00C6FF)],
+                colors: [Color(0xFF004ECC), Color(0xFF0072FF), Color(0xFF00C6FF)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -87,14 +87,18 @@ class ModernHeaderWidget extends StatelessWidget {
           ),
         ),
 
-        // Primary deep navy wave header
+        // Primary deep sapphire/navy wave header
         ClipPath(
           clipper: _HeaderMainWaveClipper(),
           child: Container(
             height: topPadding + 78,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.modernNavyStart, AppColors.modernNavyEnd],
+                colors: [
+                  Color(0xFF041329),
+                  Color(0xFF08244B),
+                  Color(0xFF0E386B),
+                ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -108,22 +112,26 @@ class ModernHeaderWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Rounded speedometer logo badge
+                // Rounded speedometer logo badge with glass sheen
                 Container(
                   width: 38,
                   height: 38,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF0066FF), Color(0xFF00C6FF)],
+                      colors: [Color(0xFF0061FF), Color(0xFF00A2FF), Color(0xFF00C6FF)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(11),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.35),
+                      width: 1.2,
+                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF00C6FF).withValues(alpha: 0.35),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
+                        color: const Color(0xFF00C6FF).withValues(alpha: 0.45),
+                        blurRadius: 9,
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -149,7 +157,7 @@ class ModernHeaderWidget extends StatelessWidget {
                           fontSize: 17,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
-                          letterSpacing: -0.3,
+                          letterSpacing: -0.4,
                         ),
                       ),
                       const SizedBox(height: 1),
@@ -160,7 +168,8 @@ class ModernHeaderWidget extends StatelessWidget {
                         style: GoogleFonts.inter(
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
-                          color: const Color(0xFFC2D9F2),
+                          color: const Color(0xFFB8D5F5),
+                          letterSpacing: 0.1,
                         ),
                       ),
                     ],

@@ -57,4 +57,33 @@ class AppColors {
   static const Color modernGreen = Color(0xFF00C853);
   static const Color modernIconBg = Color(0xFFEBF4FE);
   static const Color modernPillBg = Color(0xFFDCEBFA);
+
+  // Luxury Gradients, Glow & Glass Accents
+  static const Color brandSapphire = Color(0xFF061838);
+  static const Color brandNavy = Color(0xFF0A2E65);
+  static const Color brandCobalt = Color(0xFF0E3D78);
+  static const Color brandElectric = Color(0xFF0061FF);
+  static const Color brandCyan = Color(0xFF00C6FF);
+  static const Color brandSky = Color(0xFF60EFFF);
+  static const Color glowBlue = Color(0xFF0066FF);
+  static const Color glassSurface = Color(0xF5FFFFFF);
+  static const Color glassBorder = Color(0x60FFFFFF);
+
+  static const LinearGradient brandButtonGradient = LinearGradient(
+    colors: [Color(0xFF004ECC), Color(0xFF0066FF), Color(0xFF0088FF)],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
+  static const LinearGradient headerGradient = LinearGradient(
+    colors: [Color(0xFF061B3B), Color(0xFF0A2E5C), Color(0xFF0E3D78)],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const LinearGradient waveAccentGradient = LinearGradient(
+    colors: [Color(0xFF0052D4), Color(0xFF0072FF), Color(0xFF00C6FF)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }

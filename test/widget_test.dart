@@ -218,7 +218,7 @@ void main() {
 
     expect(find.text('Pride'), findsOneWidget);
     expect(find.text('KMPH Meter'), findsOneWidget);
-    expect(find.text('Precision Speed Monitoring'), findsOneWidget);
+    expect(find.text('PRECISION SPEED MONITORING'), findsOneWidget);
     expect(find.text('Loading...'), findsOneWidget);
     expect(find.byType(SplashSpeedometerIcon), findsOneWidget);
     expect(tester.takeException(), isNull);
