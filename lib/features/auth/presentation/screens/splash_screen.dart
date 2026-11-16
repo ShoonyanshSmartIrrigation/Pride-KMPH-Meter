@@ -61,28 +61,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F8FD),
+      backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final screenHeight = constraints.maxHeight;
           final screenWidth = constraints.maxWidth;
 
-          final topWaveHeight = (screenHeight * 0.18).clamp(130.0, 175.0);
-          final bottomWaveHeight = (screenHeight * 0.16).clamp(110.0, 150.0);
-          final iconSize = (screenHeight * 0.14).clamp(95.0, 130.0);
+          final topWaveHeight = (screenHeight * 0.19).clamp(135.0, 175.0);
+          final bottomWaveHeight = (screenHeight * 0.16).clamp(105.0, 145.0);
+          final iconSize = (screenHeight * 0.14).clamp(95.0, 125.0);
           final progressBarWidth = (screenWidth * 0.54).clamp(180.0, 240.0);
 
           return Stack(
             children: [
-              // 1. Perspective Speed Highway in lower-middle background
-              Positioned(
-                bottom: bottomWaveHeight * 0.50,
-                left: 0,
-                right: 0,
-                child: const SpeedPerspectiveRoadWidget(height: 220),
-              ),
-
-              // 2. Top Decorative Flowing Multi-Layer Wave
+              // 1. Top Decorative Corner-Swoop Multi-Layer Wave
               Positioned(
                 top: 0,
                 left: 0,
@@ -90,16 +82,15 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 child: TopSplashWaveWidget(height: topWaveHeight),
               ),
 
-              // 3. Responsive Center Branding & Animated Progress Bar
+              // 2. Responsive Center Branding, Perspective Highway, & Progress Bar
               Center(
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 20),
+                      SizedBox(height: topWaveHeight * 0.40),
 
                       // Speedometer Gauge with Neon Glow
                       SplashSpeedometerIcon(size: iconSize),
@@ -112,81 +103,100 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         kmphSize: 26,
                       ),
 
-                      SizedBox(
-                        height: (screenHeight * 0.10).clamp(40.0, 80.0),
-                      ),
+                      const SizedBox(height: 12),
 
-                      // Animated Sleek Glowing Progress Bar over highway
-                      Container(
-                        width: progressBarWidth,
-                        height: 7,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE2EDF9),
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.05),
-                              blurRadius: 3,
-                              offset: const Offset(0, 1),
+                      // Futuristic Perspective Highway with Centered Progress Bar
+                      SizedBox(
+                        width: screenWidth,
+                        height: (screenHeight * 0.28).clamp(200.0, 240.0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Receding perspective road surface
+                            const Positioned.fill(
+                              child: SpeedPerspectiveRoadWidget(height: 220),
+                            ),
+
+                            // Capsule progress bar & Loading caption
+                            Positioned(
+                              bottom: 28,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: progressBarWidth,
+                                    height: 7.5,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFE2EDF9),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.05),
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 1),
+                                        ),
+                                      ],
+                                    ),
+                                    child: AnimatedBuilder(
+                                      animation: _progressAnimation,
+                                      builder: (context, _) {
+                                        return Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: FractionallySizedBox(
+                                            widthFactor:
+                                                _progressAnimation.value.clamp(0.0, 1.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF0044B8),
+                                                    Color(0xFF0066FF),
+                                                    Color(0xFF00C6FF),
+                                                    Color(0xFF60EFFF),
+                                                  ],
+                                                  stops: [0.0, 0.40, 0.80, 1.0],
+                                                ),
+                                                borderRadius: BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: const Color(0xFF0072FF)
+                                                        .withValues(alpha: 0.50),
+                                                    blurRadius: 8,
+                                                    offset: const Offset(0, 2),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'Loading...',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF6B7B8F),
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        child: AnimatedBuilder(
-                          animation: _progressAnimation,
-                          builder: (context, _) {
-                            return Align(
-                              alignment: Alignment.centerLeft,
-                              child: FractionallySizedBox(
-                                widthFactor:
-                                    _progressAnimation.value.clamp(0.0, 1.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: const LinearGradient(
-                                      colors: [
-                                        Color(0xFF0044B8),
-                                        Color(0xFF0066FF),
-                                        Color(0xFF00C6FF),
-                                        Color(0xFF60EFFF),
-                                      ],
-                                      stops: [0.0, 0.40, 0.80, 1.0],
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0xFF0072FF)
-                                            .withValues(alpha: 0.50),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                       ),
 
-                      const SizedBox(height: 12),
-
-                      // Loading caption
-                      Text(
-                        'Loading...',
-                        style: GoogleFonts.inter(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF6B7B8F),
-                          letterSpacing: 0.3,
-                        ),
-                      ),
-
-                      const SizedBox(height: 30),
+                      SizedBox(height: bottomWaveHeight * 0.30),
                     ],
                   ),
                 ),
               ),
 
-              // 4. Bottom Flowing Multi-Layer Wave
+              // 3. Bottom Flowing Multi-Layer Wave
               Positioned(
                 bottom: 0,
                 left: 0,
