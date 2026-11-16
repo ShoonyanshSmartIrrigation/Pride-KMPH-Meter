@@ -175,7 +175,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 ),
                               ),
 
-                              const SizedBox(height: 22),
+                              const SizedBox(height: 16),
 
                               // Field 1: Full Name (Pill / Stadium Shape)
                               TextFormField(

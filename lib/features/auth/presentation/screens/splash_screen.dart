@@ -67,8 +67,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           final screenHeight = constraints.maxHeight;
           final screenWidth = constraints.maxWidth;
 
-          final topWaveHeight = (screenHeight * 0.17).clamp(110.0, 160.0);
-          final bottomWaveHeight = (screenHeight * 0.13).clamp(75.0, 115.0);
+          final topWaveHeight = (screenHeight * 0.18).clamp(130.0, 175.0);
+          final bottomWaveHeight = (screenHeight * 0.16).clamp(110.0, 150.0);
           final iconSize = (screenHeight * 0.14).clamp(95.0, 130.0);
           final progressBarWidth = (screenWidth * 0.54).clamp(180.0, 240.0);
 
@@ -76,13 +76,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             children: [
               // 1. Perspective Speed Highway in lower-middle background
               Positioned(
-                bottom: bottomWaveHeight * 0.65,
+                bottom: bottomWaveHeight * 0.50,
                 left: 0,
                 right: 0,
-                child: const SpeedPerspectiveRoadWidget(height: 180),
+                child: const SpeedPerspectiveRoadWidget(height: 220),
               ),
 
-              // 2. Top Decorative Flowing Wave
+              // 2. Top Decorative Flowing Multi-Layer Wave
               Positioned(
                 top: 0,
                 left: 0,

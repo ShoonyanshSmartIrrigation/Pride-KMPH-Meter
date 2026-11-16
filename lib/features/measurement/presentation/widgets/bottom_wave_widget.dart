@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Decorative flowing multi-layer wave graphic with richer gradients,
-/// organic cubic curves, and soft luminous crest highlights.
+/// Decorative flowing multi-layer wave graphic matching the fancy reference design,
+/// featuring rich sapphire-to-cyan gradients, smooth dual-crest S-curves,
+/// and luminous specular crest highlights.
 class BottomWaveWidget extends StatelessWidget {
   final double height;
 
   const BottomWaveWidget({
     super.key,
-    this.height = 70,
+    this.height = 90,
   });
 
   @override
@@ -27,139 +28,121 @@ class _BottomWavePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rect = Rect.fromLTWH(0, 0, size.width, size.height);
 
-    // Layer 1: Ambient Luminous Cyan Glow Wave (deepest layer)
-    final wave1Paint = Paint()
+    // Layer 1: Ambient Luminous Cyan Accent Wave (Back Layer peaking at right)
+    final backWavePaint = Paint()
       ..shader = const LinearGradient(
         colors: [
-          Color(0x3500C6FF),
-          Color(0x200052D4),
-          Color(0x2860EFFF),
+          Color(0x350052D4),
+          Color(0x600072FF),
+          Color(0x8000C6FF),
+          Color(0x5560EFFF),
         ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
+        stops: [0.0, 0.35, 0.70, 1.0],
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
       ).createShader(rect)
       ..style = PaintingStyle.fill;
 
-    final path1 = Path();
-    path1.moveTo(0, size.height * 0.40);
-    path1.cubicTo(
-      size.width * 0.22,
-      size.height * 0.05,
-      size.width * 0.48,
-      size.height * 0.46,
-      size.width * 0.72,
-      size.height * 0.22,
-    );
-    path1.quadraticBezierTo(
-      size.width * 0.88,
+    final backPath = Path();
+    backPath.moveTo(0, size.height * 0.75);
+    backPath.cubicTo(
+      size.width * 0.35,
+      size.height * 0.50,
+      size.width * 0.65,
       size.height * 0.08,
       size.width,
-      size.height * 0.28,
+      size.height * 0.38,
     );
-    path1.lineTo(size.width, size.height);
-    path1.lineTo(0, size.height);
-    path1.close();
-    canvas.drawPath(path1, wave1Paint);
+    backPath.lineTo(size.width, size.height);
+    backPath.lineTo(0, size.height);
+    backPath.close();
+    canvas.drawPath(backPath, backWavePaint);
 
-    // Layer 2: Radiant Sky/Cobalt Intermediate Wave
-    final wave2Paint = Paint()
+    // Layer 2: Intermediate Radiant Sky Ribbon
+    final midWavePaint = Paint()
       ..shader = const LinearGradient(
         colors: [
-          Color(0x550052D4),
-          Color(0x450072FF),
-          Color(0x4000C6FF),
+          Color(0x55003DA5),
+          Color(0x800066FF),
+          Color(0x9500C6FF),
         ],
         begin: Alignment.bottomLeft,
         end: Alignment.topRight,
       ).createShader(rect)
       ..style = PaintingStyle.fill;
 
-    final path2 = Path();
-    path2.moveTo(0, size.height * 0.62);
-    path2.cubicTo(
-      size.width * 0.28,
-      size.height * 0.18,
-      size.width * 0.62,
-      size.height * 0.68,
-      size.width * 0.84,
-      size.height * 0.42,
-    );
-    path2.quadraticBezierTo(
-      size.width * 0.94,
-      size.height * 0.32,
-      size.width,
-      size.height * 0.48,
-    );
-    path2.lineTo(size.width, size.height);
-    path2.lineTo(0, size.height);
-    path2.close();
-    canvas.drawPath(path2, wave2Paint);
-
-    // Layer 3: Vibrant Royal-to-Cyan Foreground Wave
-    final wave3Paint = Paint()
-      ..shader = const LinearGradient(
-        colors: [
-          Color(0x95082E6E),
-          Color(0x850052D4),
-          Color(0x750072FF),
-          Color(0x6500C6FF),
-        ],
-        begin: Alignment.bottomLeft,
-        end: Alignment.topRight,
-      ).createShader(rect)
-      ..style = PaintingStyle.fill;
-
-    final path3 = Path();
-    path3.moveTo(0, size.height * 0.72);
-    path3.cubicTo(
+    final midPath = Path();
+    midPath.moveTo(0, size.height * 0.58);
+    midPath.cubicTo(
       size.width * 0.30,
-      size.height * 0.28,
-      size.width * 0.66,
-      size.height * 0.64,
-      size.width * 0.88,
-      size.height * 0.58,
-    );
-    path3.quadraticBezierTo(
-      size.width * 0.95,
-      size.height * 0.55,
+      size.height * 0.15,
+      size.width * 0.62,
+      size.height * 0.75,
       size.width,
-      size.height * 0.60,
+      size.height * 0.45,
     );
-    path3.lineTo(size.width, size.height);
-    path3.lineTo(0, size.height);
-    path3.close();
-    canvas.drawPath(path3, wave3Paint);
+    midPath.lineTo(size.width, size.height);
+    midPath.lineTo(0, size.height);
+    midPath.close();
+    canvas.drawPath(midPath, midWavePaint);
+
+    // Layer 3: Solid Rich Sapphire-to-Cyan Foreground Wave (Primary)
+    final frontWavePaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [
+          Color(0xFF003899),
+          Color(0xFF0058DD),
+          Color(0xFF0078FF),
+          Color(0xFF00A6FF),
+          Color(0xFF00C6FF),
+        ],
+        stops: [0.0, 0.25, 0.55, 0.80, 1.0],
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
+      ).createShader(rect)
+      ..style = PaintingStyle.fill;
+
+    final frontPath = Path();
+    frontPath.moveTo(0, size.height * 0.42);
+    frontPath.cubicTo(
+      size.width * 0.28,
+      size.height * 0.06,
+      size.width * 0.60,
+      size.height * 0.65,
+      size.width,
+      size.height * 0.35,
+    );
+    frontPath.lineTo(size.width, size.height);
+    frontPath.lineTo(0, size.height);
+    frontPath.close();
+    canvas.drawPath(frontPath, frontWavePaint);
 
     // Layer 4: Specular Crest Highlight Line
     final crestHighlightPaint = Paint()
       ..shader = const LinearGradient(
         colors: [
           Colors.transparent,
-          Color(0x8060EFFF),
-          Color(0xE0FFFFFF),
+          Color(0xB0FFFFFF),
+          Color(0xFF60EFFF),
           Color(0x9000C6FF),
           Colors.transparent,
         ],
-        stops: [0.0, 0.25, 0.50, 0.75, 1.0],
+        stops: [0.0, 0.25, 0.55, 0.80, 1.0],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
       ).createShader(rect)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.6;
+      ..strokeWidth = 2.0;
 
     final crestPath = Path();
-    crestPath.moveTo(0, size.height * 0.72);
+    crestPath.moveTo(0, size.height * 0.42);
     crestPath.cubicTo(
-      size.width * 0.30,
-      size.height * 0.28,
-      size.width * 0.66,
-      size.height * 0.64,
-      size.width * 0.88,
-      size.height * 0.58,
-    );
-    crestPath.quadraticBezierTo(
-      size.width * 0.95,
-      size.height * 0.55,
+      size.width * 0.28,
+      size.height * 0.06,
+      size.width * 0.60,
+      size.height * 0.65,
       size.width,
-      size.height * 0.60,
+      size.height * 0.35,
     );
     canvas.drawPath(crestPath, crestHighlightPaint);
   }
