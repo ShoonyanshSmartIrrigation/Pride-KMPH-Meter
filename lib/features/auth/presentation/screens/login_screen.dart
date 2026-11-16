@@ -18,6 +18,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
   bool _obscurePassword = true;
 
   @override
@@ -35,6 +37,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
     super.dispose();
   }
 
@@ -115,27 +119,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Enter your registered email address to receive password reset instructions.',
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                color: const Color(0xFF6B7B8F),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Enter your registered email address to receive password reset instructions.',
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: const Color(0xFF6B7B8F),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: resetEmailController,
-              keyboardType: TextInputType.emailAddress,
-              style: GoogleFonts.inter(
-                fontSize: 15.5,
-                fontWeight: FontWeight.w500,
-                color: AppColors.deepNavy,
-              ),
-              decoration: InputDecoration(
+              const SizedBox(height: 16),
+              TextField(
+                controller: resetEmailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.done,
+                style: GoogleFonts.inter(
+                  fontSize: 15.5,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.deepNavy,
+                ),
+                decoration: InputDecoration(
                 hintText: 'Email address',
                 hintStyle: GoogleFonts.inter(
                   fontSize: 15,
@@ -171,7 +177,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ],
         ),
-        actions: [
+      ),
+      actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogCtx).pop(),
             child: Text(
@@ -241,162 +248,196 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
     final authController = ref.read(authControllerProvider.notifier);
+    final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Scaffold(
       backgroundColor: AppColors.modernBg,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // 1. Top Fancy Sapphire Header with Speedometer Gauge & Title
-                    const AuthHeaderWidget(singleLineTitle: false),
-                    const SizedBox(height: 16),
-                    // 2. Main Login Form Body with Floating Glass Card
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 24,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(32),
-                          border: Border.all(
-                            color: const Color(0xFFE2ECF8),
-                            width: 1.2,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // 1. Top Fancy Sapphire Header with Speedometer Gauge & Title
+                      const AuthHeaderWidget(singleLineTitle: false),
+                      const SizedBox(height: 16),
+                      // 2. Main Login Form Body with Floating Glass Card
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 24,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(
-                                0xFF0052D4,
-                              ).withValues(alpha: 0.08),
-                              blurRadius: 28,
-                              offset: const Offset(0, 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(32),
+                            border: Border.all(
+                              color: const Color(0xFFE2ECF8),
+                              width: 1.2,
                             ),
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.02),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // Heading: "Welcome Back"
-                              Text(
-                                'Welcome Back',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w800,
-                                  color: const Color(0xFF08224D),
-                                  letterSpacing: -0.5,
-                                ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF0052D4,
+                                ).withValues(alpha: 0.08),
+                                blurRadius: 28,
+                                offset: const Offset(0, 10),
                               ),
-                              const SizedBox(height: 5),
-
-                              // Subtitle
-                              Text(
-                                'Login to continue to Pride KMPH Meter',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF6B7B8F),
-                                ),
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.02),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
                               ),
+                            ],
+                          ),
+                          child: AutofillGroup(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  // Heading: "Welcome Back"
+                                  Text(
+                                    'Welcome Back',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w800,
+                                      color: const Color(0xFF08224D),
+                                      letterSpacing: -0.5,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
 
-                              const SizedBox(height: 22),
+                                  // Subtitle
+                                  Text(
+                                    'Login to continue to Pride KMPH Meter',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xFF6B7B8F),
+                                    ),
+                                  ),
 
-                              // Input 1: Email / Username (Pill / Stadium Shape)
-                              TextFormField(
-                                controller: _emailController,
-                                keyboardType: TextInputType.emailAddress,
-                                autocorrect: false,
-                                style: GoogleFonts.inter(
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF0A2540),
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: 'Email / Username',
-                                  hintStyle: GoogleFonts.inter(
-                                    color: const Color(0xFF8F9DAE),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  prefixIcon: const Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 16,
-                                      right: 12,
-                                    ),
-                                    child: Icon(
-                                      Icons.person_outline_rounded,
-                                      color: Color(0xFF5A6E85),
-                                      size: 22,
-                                    ),
-                                  ),
-                                  prefixIconConstraints: const BoxConstraints(
-                                    minWidth: 48,
-                                    minHeight: 48,
-                                  ),
-                                  filled: true,
-                                  fillColor: const Color(0xFFF9FBFE),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 16,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFD6E3F2),
-                                      width: 1.2,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFD6E3F2),
-                                      width: 1.2,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF0066FF),
-                                      width: 1.8,
-                                    ),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'Please enter your email or username';
-                                  }
-                                  return null;
-                                },
-                              ),
+                                  const SizedBox(height: 22),
 
-                              const SizedBox(height: 14),
+                                  // Input 1: Email / Username (Pill / Stadium Shape)
+                                  TextFormField(
+                                    controller: _emailController,
+                                    focusNode: _emailFocusNode,
+                                    keyboardType: TextInputType.emailAddress,
+                                    textInputAction: TextInputAction.next,
+                                    autofillHints: const [
+                                      AutofillHints.email,
+                                      AutofillHints.username,
+                                    ],
+                                    scrollPadding:
+                                        const EdgeInsets.only(bottom: 120),
+                                    onFieldSubmitted: (_) {
+                                      FocusScope.of(context)
+                                          .requestFocus(_passwordFocusNode);
+                                    },
+                                    autocorrect: false,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF0A2540),
+                                    ),
+                                    decoration: InputDecoration(
+                                      hintText: 'Email / Username',
+                                      hintStyle: GoogleFonts.inter(
+                                        color: const Color(0xFF8F9DAE),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      prefixIcon: const Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 16,
+                                          right: 12,
+                                        ),
+                                        child: Icon(
+                                          Icons.person_outline_rounded,
+                                          color: Color(0xFF5A6E85),
+                                          size: 22,
+                                        ),
+                                      ),
+                                      prefixIconConstraints:
+                                          const BoxConstraints(
+                                        minWidth: 48,
+                                        minHeight: 48,
+                                      ),
+                                      filled: true,
+                                      fillColor: const Color(0xFFF9FBFE),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 16,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30),
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFFD6E3F2),
+                                          width: 1.2,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30),
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFFD6E3F2),
+                                          width: 1.2,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30),
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFF0066FF),
+                                          width: 1.8,
+                                        ),
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
+                                        return 'Please enter your email or username';
+                                      }
+                                      return null;
+                                    },
+                                  ),
 
-                              // Input 2: Password (Pill / Stadium Shape)
-                              TextFormField(
-                                controller: _passwordController,
-                                obscureText: _obscurePassword,
-                                style: GoogleFonts.inter(
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF0A2540),
-                                ),
+                                  const SizedBox(height: 14),
+
+                                  // Input 2: Password (Pill / Stadium Shape)
+                                  TextFormField(
+                                    controller: _passwordController,
+                                    focusNode: _passwordFocusNode,
+                                    obscureText: _obscurePassword,
+                                    textInputAction: TextInputAction.done,
+                                    autofillHints: const [
+                                      AutofillHints.password,
+                                    ],
+                                    scrollPadding:
+                                        const EdgeInsets.only(bottom: 120),
+                                    onFieldSubmitted: (_) => _handleLogin(),
+                                    style: GoogleFonts.inter(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF0A2540),
+                                    ),
                                 decoration: InputDecoration(
                                   hintText: 'Password',
                                   hintStyle: GoogleFonts.inter(
@@ -695,20 +736,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                     ),
+                  ),
 
-                    // 3. Flexible spacer to adapt gracefully on any device height
+                  // 3. Adaptive bottom spacing based on keyboard state
+                  if (!isKeyboardOpen) ...[
                     const Spacer(),
                     const SizedBox(height: 20),
-
-                    // 4. Flowing Decorative Bottom Wave
                     const BottomWaveWidget(height: 70),
+                  ] else ...[
+                    const SizedBox(height: 32),
                   ],
-                ),
+                ],
               ),
             ),
-          );
-        },
-      ),
-    );
+          ),
+              );
+            },
+          ),
+        ),
+      );
+    }
   }
-}

@@ -21,6 +21,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  final _fullNameFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
@@ -30,6 +35,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+
+    _fullNameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
     super.dispose();
   }
 
@@ -96,96 +106,115 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
+    final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Scaffold(
       backgroundColor: AppColors.modernBg,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // 1. Top Fancy Sapphire Header with Speedometer Gauge & Title (Compact for Register)
-                    const AuthHeaderWidget(
-                      singleLineTitle: true,
-                      height: 138,
-                      iconSize: 48,
-                    ),
-                    const SizedBox(height: 10),
-                    // 2. Main Register Form Body with Floating Card Elevation
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 24,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(32),
-                          border: Border.all(
-                            color: const Color(0xFFE2ECF8),
-                            width: 1.2,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // 1. Top Fancy Sapphire Header with Speedometer Gauge & Title (Compact for Register)
+                      const AuthHeaderWidget(
+                        singleLineTitle: true,
+                        height: 138,
+                        iconSize: 48,
+                      ),
+                      const SizedBox(height: 10),
+                      // 2. Main Register Form Body with Floating Card Elevation
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 24,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(
-                                0xFF0052D4,
-                              ).withValues(alpha: 0.08),
-                              blurRadius: 28,
-                              offset: const Offset(0, 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(32),
+                            border: Border.all(
+                              color: const Color(0xFFE2ECF8),
+                              width: 1.2,
                             ),
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.02),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // Heading: "Create Account"
-                              Text(
-                                'Create Account',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w800,
-                                  color: const Color(0xFF08224D),
-                                  letterSpacing: -0.5,
-                                ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF0052D4,
+                                ).withValues(alpha: 0.08),
+                                blurRadius: 28,
+                                offset: const Offset(0, 10),
                               ),
-                              const SizedBox(height: 5),
-
-                              // Subtitle
-                              Text(
-                                'Sign up to get started with Pride KMPH Meter',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.inter(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF6B7B8F),
-                                ),
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.02),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
                               ),
+                            ],
+                          ),
+                          child: AutofillGroup(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  // Heading: "Create Account"
+                                  Text(
+                                    'Create Account',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w800,
+                                      color: const Color(0xFF08224D),
+                                      letterSpacing: -0.5,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
 
-                              const SizedBox(height: 16),
+                                  // Subtitle
+                                  Text(
+                                    'Sign up to get started with Pride KMPH Meter',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: const Color(0xFF6B7B8F),
+                                    ),
+                                  ),
 
-                              // Field 1: Full Name (Pill / Stadium Shape)
-                              TextFormField(
-                                controller: _fullNameController,
-                                textCapitalization: TextCapitalization.words,
-                                style: GoogleFonts.inter(
-                                  fontSize: 15.5,
-                                  fontWeight: FontWeight.w600,
-                                  color: const Color(0xFF0A2540),
-                                ),
+                                  const SizedBox(height: 16),
+
+                                  // Field 1: Full Name (Pill / Stadium Shape)
+                                  TextFormField(
+                                    controller: _fullNameController,
+                                    focusNode: _fullNameFocusNode,
+                                    keyboardType: TextInputType.name,
+                                    textInputAction: TextInputAction.next,
+                                    autofillHints: const [AutofillHints.name],
+                                    scrollPadding:
+                                        const EdgeInsets.only(bottom: 120),
+                                    onFieldSubmitted: (_) {
+                                      FocusScope.of(context)
+                                          .requestFocus(_emailFocusNode);
+                                    },
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 15.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF0A2540),
+                                    ),
                                 decoration: InputDecoration(
                                   hintText: 'Full Name',
                                   hintStyle: GoogleFonts.inter(
@@ -249,7 +278,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               // Field 2: Email Address (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _emailController,
+                                focusNode: _emailFocusNode,
                                 keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [AutofillHints.email],
+                                scrollPadding:
+                                    const EdgeInsets.only(bottom: 120),
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_passwordFocusNode);
+                                },
                                 autocorrect: false,
                                 style: GoogleFonts.inter(
                                   fontSize: 15.5,
@@ -323,7 +361,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               // Field 3: Password (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _passwordController,
+                                focusNode: _passwordFocusNode,
                                 obscureText: _obscurePassword,
+                                textInputAction: TextInputAction.next,
+                                autofillHints: const [
+                                  AutofillHints.newPassword,
+                                ],
+                                scrollPadding:
+                                    const EdgeInsets.only(bottom: 120),
+                                onFieldSubmitted: (_) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_confirmPasswordFocusNode);
+                                },
                                 style: GoogleFonts.inter(
                                   fontSize: 15.5,
                                   fontWeight: FontWeight.w600,
@@ -412,7 +461,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               // Field 4: Confirm Password (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _confirmPasswordController,
+                                focusNode: _confirmPasswordFocusNode,
                                 obscureText: _obscureConfirmPassword,
+                                textInputAction: TextInputAction.done,
+                                autofillHints: const [
+                                  AutofillHints.newPassword,
+                                ],
+                                scrollPadding:
+                                    const EdgeInsets.only(bottom: 120),
+                                onFieldSubmitted: (_) => _handleRegister(),
                                 style: GoogleFonts.inter(
                                   fontSize: 15.5,
                                   fontWeight: FontWeight.w600,
@@ -644,20 +701,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                       ),
                     ),
+                  ),
 
-                    // 3. Spacer to push bottom wave down cleanly
+                  // 3. Adaptive bottom spacing based on keyboard state
+                  if (!isKeyboardOpen) ...[
                     const Spacer(),
                     const SizedBox(height: 20),
-
-                    // 4. Flowing Decorative Bottom Wave
                     const BottomWaveWidget(height: 70),
+                  ] else ...[
+                    const SizedBox(height: 32),
                   ],
-                ),
+                ],
               ),
             ),
-          );
-        },
-      ),
-    );
+          ),
+              );
+            },
+          ),
+        ),
+      );
+    }
   }
-}
