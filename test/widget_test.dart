@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pride_kmph_meter/core/utils/speed_formatter.dart';
 import 'package:pride_kmph_meter/features/auth/presentation/screens/login_screen.dart';
 import 'package:pride_kmph_meter/features/auth/presentation/screens/register_screen.dart';
+import 'package:pride_kmph_meter/features/auth/presentation/screens/splash_screen.dart';
 import 'package:pride_kmph_meter/features/auth/presentation/widgets/splash_speedometer_icon.dart';
 import 'package:pride_kmph_meter/features/measurement/domain/measurement_status.dart';
 import 'package:pride_kmph_meter/features/measurement/presentation/controllers/measurement_controller.dart';
@@ -196,6 +197,30 @@ void main() {
     expect(find.text('Sign Up'), findsOneWidget);
     expect(find.text('Already have an account? '), findsOneWidget);
     expect(find.text('Login'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('SplashScreen renders responsive branding and animated progress bar',
+      (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(prefs),
+        ],
+        child: const MaterialApp(
+          home: SplashScreen(),
+        ),
+      ),
+    );
+
+    expect(find.text('Pride'), findsOneWidget);
+    expect(find.text('KMPH Meter'), findsOneWidget);
+    expect(find.text('Precision Speed Monitoring'), findsOneWidget);
+    expect(find.text('Loading...'), findsOneWidget);
+    expect(find.byType(SplashSpeedometerIcon), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

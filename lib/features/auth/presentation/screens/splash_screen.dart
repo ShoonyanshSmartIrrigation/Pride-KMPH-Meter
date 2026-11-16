@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../measurement/presentation/widgets/bottom_wave_widget.dart';
 import '../controllers/auth_controller.dart';
@@ -24,7 +25,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2200),
+      duration: const Duration(milliseconds: 2400),
     );
 
     _progressAnimation = CurvedAnimation(
@@ -42,7 +43,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final user = authService.currentUser;
     final rememberMe = authService.rememberMe;
 
-    // If authenticated and Remember Me is enabled, go to Dashboard; else Login
     if (user != null && rememberMe) {
       context.go('/');
     } else {
@@ -60,135 +60,152 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.modernBg,
-      body: Stack(
-        children: [
-          // 1. Top Decorative Wave
-          const Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: TopSplashWaveWidget(height: 160),
-          ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final screenHeight = constraints.maxHeight;
+          final screenWidth = constraints.maxWidth;
 
-          // 2. Center Branding & Sleek Progress Bar
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Visual Speedometer Dial Gauge
-                const SplashSpeedometerIcon(size: 110),
-                const SizedBox(height: 14),
+          // Responsive sizing based on viewport height & width
+          final topWaveHeight = (screenHeight * 0.17).clamp(110.0, 160.0);
+          final bottomWaveHeight = (screenHeight * 0.13).clamp(75.0, 115.0);
+          final iconSize = (screenHeight * 0.13).clamp(88.0, 115.0);
+          final prideFontSize = (screenHeight * 0.052).clamp(34.0, 44.0);
+          final kmphFontSize = (screenHeight * 0.033).clamp(22.0, 28.0);
+          final subtitleFontSize = (screenHeight * 0.017).clamp(12.0, 14.0);
+          final progressBarWidth = (screenWidth * 0.54).clamp(180.0, 240.0);
 
-                // "Pride" in stylized italic bold blue
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: [Color(0xFF0052D4), Color(0xFF0066FF)],
-                  ).createShader(bounds),
-                  child: const Text(
-                    'Pride',
-                    style: TextStyle(
-                      fontSize: 42,
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.italic,
-                      color: Colors.white,
-                      letterSpacing: -0.5,
-                      height: 1.0,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 4),
+          return Stack(
+            children: [
+              // 1. Top Decorative Flowing Wave
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: TopSplashWaveWidget(height: topWaveHeight),
+              ),
 
-                // "KMPH Meter" in deep navy
-                const Text(
-                  'KMPH Meter',
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.deepNavy,
-                    letterSpacing: -0.5,
-                    height: 1.1,
-                  ),
-                ),
-                const SizedBox(height: 6),
+              // 2. Responsive Center Branding & Progress Bar
+              Center(
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Gauge Graphic
+                      SplashSpeedometerIcon(size: iconSize),
+                      const SizedBox(height: 8),
 
-                // Subtitle
-                const Text(
-                  'Precision Speed Monitoring',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF6B7B8F),
-                    letterSpacing: 0.2,
-                  ),
-                ),
-
-                const SizedBox(height: 42),
-
-                // Animated Sleek Progress Bar
-                Container(
-                  width: 210,
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFDCEBFA),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: AnimatedBuilder(
-                    animation: _progressAnimation,
-                    builder: (context, _) {
-                      return Align(
-                        alignment: Alignment.centerLeft,
-                        child: FractionallySizedBox(
-                          widthFactor: _progressAnimation.value.clamp(0.0, 1.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xFF0052D4),
-                                  Color(0xFF0066FF),
-                                  Color(0xFF00C6FF),
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF0066FF)
-                                      .withValues(alpha: 0.4),
-                                  blurRadius: 6,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                          ),
+                      // "Pride" in bold italic electric blue
+                      Text(
+                        'Pride',
+                        style: GoogleFonts.inter(
+                          fontSize: prideFontSize,
+                          fontWeight: FontWeight.w900,
+                          fontStyle: FontStyle.italic,
+                          color: const Color(0xFF0052D4),
+                          letterSpacing: -0.6,
+                          height: 1.05,
                         ),
-                      );
-                    },
+                      ),
+                      const SizedBox(height: 2),
+
+                      // "KMPH Meter" in deep royal blue
+                      Text(
+                        'KMPH Meter',
+                        style: GoogleFonts.inter(
+                          fontSize: kmphFontSize,
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF0044B8),
+                          letterSpacing: -0.5,
+                          height: 1.1,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+
+                      // "Precision Speed Monitoring" Subtitle
+                      Text(
+                        'Precision Speed Monitoring',
+                        style: GoogleFonts.inter(
+                          fontSize: subtitleFontSize,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF6B7B8F),
+                          letterSpacing: 0.15,
+                        ),
+                      ),
+
+                      SizedBox(height: (screenHeight * 0.045).clamp(24.0, 44.0)),
+
+                      // Animated Sleek Capsule Progress Bar
+                      Container(
+                        width: progressBarWidth,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFDCEBFA),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: AnimatedBuilder(
+                          animation: _progressAnimation,
+                          builder: (context, _) {
+                            return Align(
+                              alignment: Alignment.centerLeft,
+                              child: FractionallySizedBox(
+                                widthFactor:
+                                    _progressAnimation.value.clamp(0.0, 1.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFF0052D4),
+                                        Color(0xFF0066FF),
+                                        Color(0xFF00C6FF),
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF0066FF)
+                                            .withValues(alpha: 0.4),
+                                        blurRadius: 6,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      // Loading caption
+                      Text(
+                        'Loading...',
+                        style: GoogleFonts.inter(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF6B7B8F),
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 12),
-
-                // Loading Text
-                const Text(
-                  'Loading...',
-                  style: TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF6B7B8F),
-                    letterSpacing: 0.3,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // 3. Bottom Decorative Wave
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomWaveWidget(height: 100),
-          ),
-        ],
+              // 3. Bottom Decorative Flowing Wave
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: BottomWaveWidget(height: bottomWaveHeight),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

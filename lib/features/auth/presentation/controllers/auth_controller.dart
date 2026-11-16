@@ -134,3 +134,4 @@ final authControllerProvider =
   final authService = ref.watch(authServiceProvider);
   return AuthController(authService);
 });
+

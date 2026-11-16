@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 
 /// Modern top curved header matching the reference visual design.
@@ -143,22 +144,22 @@ class ModernHeaderWidget extends StatelessWidget {
                         'Pride KMPH Meter',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 17,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
                           letterSpacing: -0.3,
                         ),
                       ),
-                      SizedBox(height: 1),
+                      const SizedBox(height: 1),
                       Text(
                         'Precision Speed Monitoring',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
-                          color: Color(0xFFC2D9F2),
+                          color: const Color(0xFFC2D9F2),
                         ),
                       ),
                     ],
