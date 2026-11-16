@@ -13,10 +13,10 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize offline persistent local cache
+  //Initialize offline persistent local cache
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  // Safe Firebase Core & Crashlytics initialization (non-blocking, supports offline/first-run)
+  //Safe Firebase Core & Crashlytics initialization (non-blocking, supports offline/first-run)
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,

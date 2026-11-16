@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../measurement/presentation/widgets/bottom_wave_widget.dart';
-import '../../../measurement/presentation/widgets/modern_header_widget.dart';
 import '../controllers/auth_controller.dart';
+import '../widgets/auth_header_widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -54,7 +54,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (success) {
       context.go('/');
     } else {
-      final error = ref.read(authControllerProvider).errorMessage ??
+      final error =
+          ref.read(authControllerProvider).errorMessage ??
           'Sign in failed. Please check credentials.';
       _showErrorSnackBar(error);
     }
@@ -65,8 +66,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.error_outline_rounded,
-                color: Colors.white, size: 20),
+            const Icon(
+              Icons.error_outline_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -85,8 +89,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _showForgotPasswordDialog() {
-    final resetEmailController =
-        TextEditingController(text: _emailController.text.trim());
+    final resetEmailController = TextEditingController(
+      text: _emailController.text.trim(),
+    );
 
     showDialog(
       context: context,
@@ -94,8 +99,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         title: Row(
           children: [
-            const Icon(Icons.lock_reset_rounded,
-                color: Color(0xFF0066FF), size: 24),
+            const Icon(
+              Icons.lock_reset_rounded,
+              color: Color(0xFF0066FF),
+              size: 24,
+            ),
             const SizedBox(width: 8),
             Text(
               'Reset Password',
@@ -113,7 +121,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           children: [
             Text(
               'Enter your registered email address to receive password reset instructions.',
-              style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF6B7B8F)),
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                color: const Color(0xFF6B7B8F),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
@@ -130,10 +141,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   fontSize: 15,
                   color: const Color(0xFF8F9DAE),
                 ),
-                prefixIcon: const Icon(Icons.mail_outline_rounded,
-                    color: Color(0xFF6B7B8F), size: 23),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                prefixIcon: const Icon(
+                  Icons.mail_outline_rounded,
+                  color: Color(0xFF6B7B8F),
+                  size: 23,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 16,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: const BorderSide(color: Color(0xFFDCE6F2)),
@@ -144,8 +160,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide:
-                      const BorderSide(color: Color(0xFF0066FF), width: 1.5),
+                  borderSide: const BorderSide(
+                    color: Color(0xFF0066FF),
+                    width: 1.5,
+                  ),
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -165,7 +183,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF0066FF),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             onPressed: () async {
               final email = resetEmailController.text.trim();
@@ -198,7 +217,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   );
                 } else {
-                  final err = ref.read(authControllerProvider).errorMessage ??
+                  final err =
+                      ref.read(authControllerProvider).errorMessage ??
                       'Could not send reset email.';
                   _showErrorSnackBar(err);
                 }
@@ -229,19 +249,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           return SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight,
-              ),
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: IntrinsicHeight(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // 1. Top Curved Navy Header
-                    const ModernHeaderWidget(),
-
-                    // 2. Main Login Form Body with Polished Card Elevation
+                    // 1. Top Fancy Sapphire Header with Speedometer Gauge & Title
+                    const AuthHeaderWidget(singleLineTitle: false),
+                    const SizedBox(height: 16),
+                    // 2. Main Login Form Body with Floating Glass Card
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,
@@ -249,17 +267,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(32),
                           border: Border.all(
                             color: const Color(0xFFE2ECF8),
                             width: 1.2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF0052D4)
-                                  .withValues(alpha: 0.07),
-                              blurRadius: 24,
-                              offset: const Offset(0, 8),
+                              color: const Color(
+                                0xFF0052D4,
+                              ).withValues(alpha: 0.08),
+                              blurRadius: 28,
+                              offset: const Offset(0, 10),
                             ),
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.02),
@@ -299,7 +318,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                               const SizedBox(height: 22),
 
-                              // Input 1: Email / Username
+                              // Input 1: Email / Username (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _emailController,
                                 keyboardType: TextInputType.emailAddress,
@@ -316,22 +335,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 12,
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 16,
                                       right: 12,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(7),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFEEF4FD),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.person_outline_rounded,
-                                        color: Color(0xFF0066FF),
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      Icons.person_outline_rounded,
+                                      color: Color(0xFF5A6E85),
+                                      size: 22,
                                     ),
                                   ),
                                   prefixIconConstraints: const BoxConstraints(
@@ -339,27 +351,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     minHeight: 48,
                                   ),
                                   filled: true,
-                                  fillColor: const Color(0xFFFAFCFF),
+                                  fillColor: const Color(0xFFF9FBFE),
                                   contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 20,
                                     vertical: 16,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF0066FF),
                                       width: 1.8,
@@ -376,7 +388,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                               const SizedBox(height: 14),
 
-                              // Input 2: Password
+                              // Input 2: Password (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _passwordController,
                                 obscureText: _obscurePassword,
@@ -392,64 +404,60 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 12,
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 16,
                                       right: 12,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(7),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFEEF4FD),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.lock_outline_rounded,
-                                        color: Color(0xFF0066FF),
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      Icons.lock_outline_rounded,
+                                      color: Color(0xFF5A6E85),
+                                      size: 22,
                                     ),
                                   ),
                                   prefixIconConstraints: const BoxConstraints(
                                     minWidth: 48,
                                     minHeight: 48,
                                   ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility_off_outlined
-                                          : Icons.visibility_outlined,
-                                      color: const Color(0xFF7A8C9E),
-                                      size: 21,
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(right: 6),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        _obscurePassword
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined,
+                                        color: const Color(0xFF7A8C9E),
+                                        size: 21,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscurePassword = !_obscurePassword;
+                                        });
+                                      },
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscurePassword = !_obscurePassword;
-                                      });
-                                    },
                                   ),
                                   filled: true,
-                                  fillColor: const Color(0xFFFAFCFF),
+                                  fillColor: const Color(0xFFF9FBFE),
                                   contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 20,
                                     vertical: 16,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF0066FF),
                                       width: 1.8,
@@ -476,7 +484,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     borderRadius: BorderRadius.circular(4),
                                     onTap: () {
                                       authController.toggleRememberMe(
-                                          !authState.rememberMe);
+                                        !authState.rememberMe,
+                                      );
                                     },
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
@@ -486,15 +495,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                           height: 20,
                                           child: Checkbox(
                                             value: authState.rememberMe,
-                                            activeColor: const Color(0xFF0066FF),
+                                            activeColor: const Color(
+                                              0xFF0066FF,
+                                            ),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                             ),
                                             onChanged: (val) {
                                               if (val != null) {
-                                                authController
-                                                    .toggleRememberMe(val);
+                                                authController.toggleRememberMe(
+                                                  val,
+                                                );
                                               }
                                             },
                                           ),
@@ -529,7 +541,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                               const SizedBox(height: 22),
 
-                              // Primary Action Button: Modern Glowing Gradient Button
+                              // Primary Action Button: Pill-Shaped Glowing Gradient Login Button
                               SizedBox(
                                 width: double.infinity,
                                 height: 52,
@@ -545,12 +557,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       begin: Alignment.centerLeft,
                                       end: Alignment.centerRight,
                                     ),
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color(0xFF0066FF)
-                                            .withValues(alpha: 0.40),
-                                        blurRadius: 16,
+                                        color: const Color(
+                                          0xFF0066FF,
+                                        ).withValues(alpha: 0.42),
+                                        blurRadius: 18,
                                         offset: const Offset(0, 6),
                                       ),
                                     ],
@@ -558,7 +571,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   child: Material(
                                     color: Colors.transparent,
                                     child: InkWell(
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius: BorderRadius.circular(30),
                                       onTap: authState.isLoading
                                           ? null
                                           : _handleLogin,
@@ -567,12 +580,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                             ? const SizedBox(
                                                 width: 22,
                                                 height: 22,
-                                                child:
-                                                    CircularProgressIndicator(
+                                                child: CircularProgressIndicator(
                                                   strokeWidth: 2.5,
                                                   valueColor:
                                                       AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
+                                                        Color
+                                                      >(Colors.white),
                                                 ),
                                               )
                                             : Row(
@@ -605,7 +618,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                               const SizedBox(height: 18),
 
-                              // OR Divider with soft styling
+                              // OR Divider
                               Row(
                                 children: [
                                   const Expanded(
@@ -616,7 +629,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 14),
+                                      horizontal: 14,
+                                    ),
                                     child: Text(
                                       'OR',
                                       style: GoogleFonts.inter(
@@ -637,19 +651,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                               const SizedBox(height: 18),
 
-                              // Secondary Frosted Action: Create New Account
+                              // Secondary Action: Pill-Shaped Outlined Create New Account Button
                               SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFF3F7FE),
+                                    backgroundColor: Colors.white,
                                     side: const BorderSide(
-                                      color: Color(0xFFB8D6FB),
-                                      width: 1.4,
+                                      color: Color(0xFF0066FF),
+                                      width: 1.5,
                                     ),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius: BorderRadius.circular(30),
                                     ),
                                   ),
                                   onPressed: () {
@@ -660,7 +674,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     children: [
                                       const Icon(
                                         Icons.person_add_alt_outlined,
-                                        color: Color(0xFF0052D4),
+                                        color: Color(0xFF0066FF),
                                         size: 20,
                                       ),
                                       const SizedBox(width: 8),
@@ -669,7 +683,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         style: GoogleFonts.inter(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w700,
-                                          color: const Color(0xFF0052D4),
+                                          color: const Color(0xFF0066FF),
                                         ),
                                       ),
                                     ],

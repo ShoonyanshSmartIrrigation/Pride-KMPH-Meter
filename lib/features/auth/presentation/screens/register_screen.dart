@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../measurement/presentation/widgets/bottom_wave_widget.dart';
-import '../../../measurement/presentation/widgets/modern_header_widget.dart';
 import '../controllers/auth_controller.dart';
+import '../widgets/auth_header_widget.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -59,7 +59,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       );
       context.go('/');
     } else {
-      final error = ref.read(authControllerProvider).errorMessage ??
+      final error =
+          ref.read(authControllerProvider).errorMessage ??
           'Registration failed. Please try again.';
       _showErrorSnackBar(error);
     }
@@ -70,8 +71,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.error_outline_rounded,
-                color: Colors.white, size: 20),
+            const Icon(
+              Icons.error_outline_rounded,
+              color: Colors.white,
+              size: 20,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -100,19 +104,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           return SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight,
-              ),
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: IntrinsicHeight(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // 1. Top Curved Navy Header
-                    const ModernHeaderWidget(),
-
-                    // 2. Main Register Form Body with Polished Card Elevation
+                    // 1. Top Fancy Sapphire Header with Speedometer Gauge & Title (Compact for Register)
+                    const AuthHeaderWidget(
+                      singleLineTitle: true,
+                      height: 138,
+                      iconSize: 48,
+                    ),
+                    const SizedBox(height: 10),
+                    // 2. Main Register Form Body with Floating Card Elevation
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22),
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,
@@ -120,17 +126,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(32),
                           border: Border.all(
                             color: const Color(0xFFE2ECF8),
                             width: 1.2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF0052D4)
-                                  .withValues(alpha: 0.07),
-                              blurRadius: 24,
-                              offset: const Offset(0, 8),
+                              color: const Color(
+                                0xFF0052D4,
+                              ).withValues(alpha: 0.08),
+                              blurRadius: 28,
+                              offset: const Offset(0, 10),
                             ),
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.02),
@@ -170,7 +177,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                               const SizedBox(height: 22),
 
-                              // Field 1: Full Name
+                              // Field 1: Full Name (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _fullNameController,
                                 textCapitalization: TextCapitalization.words,
@@ -186,22 +193,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 12,
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 16,
                                       right: 12,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(7),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFEEF4FD),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.person_outline_rounded,
-                                        color: Color(0xFF0066FF),
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      Icons.person_outline_rounded,
+                                      color: Color(0xFF5A6E85),
+                                      size: 22,
                                     ),
                                   ),
                                   prefixIconConstraints: const BoxConstraints(
@@ -209,27 +209,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     minHeight: 48,
                                   ),
                                   filled: true,
-                                  fillColor: const Color(0xFFFAFCFF),
+                                  fillColor: const Color(0xFFF9FBFE),
                                   contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 20,
                                     vertical: 16,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF0066FF),
                                       width: 1.8,
@@ -246,7 +246,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                               const SizedBox(height: 14),
 
-                              // Field 2: Email Address
+                              // Field 2: Email Address (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _emailController,
                                 keyboardType: TextInputType.emailAddress,
@@ -263,22 +263,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 12,
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 16,
                                       right: 12,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(7),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFEEF4FD),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.mail_outline_rounded,
-                                        color: Color(0xFF0066FF),
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      Icons.mail_outline_rounded,
+                                      color: Color(0xFF5A6E85),
+                                      size: 22,
                                     ),
                                   ),
                                   prefixIconConstraints: const BoxConstraints(
@@ -286,27 +279,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     minHeight: 48,
                                   ),
                                   filled: true,
-                                  fillColor: const Color(0xFFFAFCFF),
+                                  fillColor: const Color(0xFFF9FBFE),
                                   contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 20,
                                     vertical: 16,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF0066FF),
                                       width: 1.8,
@@ -327,7 +320,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                               const SizedBox(height: 14),
 
-                              // Field 3: Password
+                              // Field 3: Password (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _passwordController,
                                 obscureText: _obscurePassword,
@@ -343,64 +336,60 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 12,
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 16,
                                       right: 12,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(7),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFEEF4FD),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.lock_outline_rounded,
-                                        color: Color(0xFF0066FF),
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      Icons.lock_outline_rounded,
+                                      color: Color(0xFF5A6E85),
+                                      size: 22,
                                     ),
                                   ),
                                   prefixIconConstraints: const BoxConstraints(
                                     minWidth: 48,
                                     minHeight: 48,
                                   ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility_off_outlined
-                                          : Icons.visibility_outlined,
-                                      color: const Color(0xFF7A8C9E),
-                                      size: 21,
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(right: 6),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        _obscurePassword
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined,
+                                        color: const Color(0xFF7A8C9E),
+                                        size: 21,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscurePassword = !_obscurePassword;
+                                        });
+                                      },
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscurePassword = !_obscurePassword;
-                                      });
-                                    },
                                   ),
                                   filled: true,
-                                  fillColor: const Color(0xFFFAFCFF),
+                                  fillColor: const Color(0xFFF9FBFE),
                                   contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 20,
                                     vertical: 16,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF0066FF),
                                       width: 1.8,
@@ -420,7 +409,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                               const SizedBox(height: 14),
 
-                              // Field 4: Confirm Password
+                              // Field 4: Confirm Password (Pill / Stadium Shape)
                               TextFormField(
                                 controller: _confirmPasswordController,
                                 obscureText: _obscureConfirmPassword,
@@ -436,65 +425,61 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     fontSize: 15,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  prefixIcon: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 12,
+                                  prefixIcon: const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 16,
                                       right: 12,
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(7),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFEEF4FD),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Icon(
-                                        Icons.lock_outline_rounded,
-                                        color: Color(0xFF0066FF),
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      Icons.lock_outline_rounded,
+                                      color: Color(0xFF5A6E85),
+                                      size: 22,
                                     ),
                                   ),
                                   prefixIconConstraints: const BoxConstraints(
                                     minWidth: 48,
                                     minHeight: 48,
                                   ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscureConfirmPassword
-                                          ? Icons.visibility_off_outlined
-                                          : Icons.visibility_outlined,
-                                      color: const Color(0xFF7A8C9E),
-                                      size: 21,
+                                  suffixIcon: Padding(
+                                    padding: const EdgeInsets.only(right: 6),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        _obscureConfirmPassword
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined,
+                                        color: const Color(0xFF7A8C9E),
+                                        size: 21,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureConfirmPassword =
+                                              !_obscureConfirmPassword;
+                                        });
+                                      },
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscureConfirmPassword =
-                                            !_obscureConfirmPassword;
-                                      });
-                                    },
                                   ),
                                   filled: true,
-                                  fillColor: const Color(0xFFFAFCFF),
+                                  fillColor: const Color(0xFFF9FBFE),
                                   contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 20,
                                     vertical: 16,
                                   ),
                                   border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
-                                      color: Color(0xFFD6E4F5),
+                                      color: Color(0xFFD6E3F2),
                                       width: 1.2,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF0066FF),
                                       width: 1.8,
@@ -514,7 +499,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                               const SizedBox(height: 22),
 
-                              // Primary Action: Modern Glowing Gradient Sign Up Button
+                              // Primary Action: Pill-Shaped Glowing Gradient Sign Up Button
                               SizedBox(
                                 width: double.infinity,
                                 height: 52,
@@ -530,12 +515,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       begin: Alignment.centerLeft,
                                       end: Alignment.centerRight,
                                     ),
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(30),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color(0xFF0066FF)
-                                            .withValues(alpha: 0.40),
-                                        blurRadius: 16,
+                                        color: const Color(
+                                          0xFF0066FF,
+                                        ).withValues(alpha: 0.42),
+                                        blurRadius: 18,
                                         offset: const Offset(0, 6),
                                       ),
                                     ],
@@ -543,7 +529,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   child: Material(
                                     color: Colors.transparent,
                                     child: InkWell(
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius: BorderRadius.circular(30),
                                       onTap: authState.isLoading
                                           ? null
                                           : _handleRegister,
@@ -552,12 +538,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                             ? const SizedBox(
                                                 width: 22,
                                                 height: 22,
-                                                child:
-                                                    CircularProgressIndicator(
+                                                child: CircularProgressIndicator(
                                                   strokeWidth: 2.5,
                                                   valueColor:
                                                       AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
+                                                        Color
+                                                      >(Colors.white),
                                                 ),
                                               )
                                             : Row(
@@ -601,7 +587,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 14),
+                                      horizontal: 14,
+                                    ),
                                     child: Text(
                                       'OR',
                                       style: GoogleFonts.inter(
