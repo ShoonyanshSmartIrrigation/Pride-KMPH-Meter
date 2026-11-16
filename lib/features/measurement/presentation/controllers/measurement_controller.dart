@@ -138,11 +138,14 @@ class MeasurementController extends StateNotifier<LiveMeasurementState> {
   }
 
   void _init() {
-    // 1. Load persisted history
+    // 1. Load persisted history from local cache
     final cachedHistory = _repository.getLocalMeasurements();
     state = state.copyWith(history: cachedHistory);
 
-    // 2. Listen to BLE connection state changes
+    // 2. Fetch and merge latest remote history under active user from Firestore
+    refreshHistoryFromFirestore();
+
+    // 3. Listen to BLE connection state changes
     _bleConnectionSub = _bleService.connectionStateStream.listen((connState) {
       final isConn = connState == BleConnectionStatus.connected;
       state = state.copyWith(
@@ -314,6 +317,18 @@ class MeasurementController extends StateNotifier<LiveMeasurementState> {
     final updated = _repository.getLocalMeasurements();
     state = state.copyWith(history: updated);
     return count;
+  }
+
+  /// Pulls the latest history from Firebase Firestore under the active user and merges with local storage
+  Future<void> refreshHistoryFromFirestore() async {
+    try {
+      final merged = await _repository.fetchAndMergeRemoteHistory();
+      if (mounted) {
+        state = state.copyWith(history: merged);
+      }
+    } catch (_) {
+      // Offline fallback
+    }
   }
 
   @override

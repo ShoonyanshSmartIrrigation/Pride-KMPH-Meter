@@ -23,6 +23,16 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   DateTime? _selectedDate;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(measurementControllerProvider.notifier)
+          .refreshHistoryFromFirestore();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final liveState = ref.watch(measurementControllerProvider);
     final settings = ref.watch(settingsControllerProvider);
@@ -61,6 +71,37 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       appBar: AppBar(
         title: const Text('Measurement History'),
         actions: [
+          // Cloud Sync Button
+          IconButton(
+            icon: const Icon(Icons.cloud_sync_outlined),
+            tooltip: 'Sync with Firebase',
+            onPressed: () async {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Syncing user history with Firebase...'),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+              final count = await ref
+                  .read(measurementControllerProvider.notifier)
+                  .syncPendingMeasurements();
+              await ref
+                  .read(measurementControllerProvider.notifier)
+                  .refreshHistoryFromFirestore();
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      count > 0
+                          ? 'Sync complete. $count measurements uploaded to your profile.'
+                          : 'History is fully synced with your Firebase account.',
+                    ),
+                    backgroundColor: const Color(0xFF169B75),
+                  ),
+                );
+              }
+            },
+          ),
           // CSV Export Button
           IconButton(
             icon: const Icon(Icons.share_outlined),
@@ -96,10 +137,17 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: const EdgeInsets.all(16),
-          child: Column(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await ref
+                .read(measurementControllerProvider.notifier)
+                .refreshHistoryFromFirestore();
+          },
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // 1. KPI SUMMARY CARDS GRID
@@ -279,7 +327,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         ),
       ),
     ),
-  );
+  ),
+);
 }
 
   Widget _buildMeasurementTile(

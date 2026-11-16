@@ -70,6 +70,22 @@ class AuthService {
         password: password.trim(),
       );
 
+      final user = credential.user;
+      if (user != null) {
+        // Update last login in Firestore profile
+        try {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set({
+            'lastLogin': FieldValue.serverTimestamp(),
+            'updatedAt': FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
+        } catch (dbError) {
+          debugPrint('[AuthService] Firestore lastLogin update warning: $dbError');
+        }
+      }
+
       if (rememberMe) {
         await setSavedEmail(email.trim());
       } else {
@@ -84,7 +100,8 @@ class AuthService {
     }
   }
 
-  /// Register / Create Account with Email, Password & Full Name
+  /// Register / Create Account with Email, Password & Full Name,
+  /// creating a full user profile in Firestore under users/{userId}
   Future<UserCredential> createUserWithEmailAndPassword({
     required String email,
     required String password,
@@ -103,21 +120,31 @@ class AuthService {
 
       final user = credential.user;
       if (user != null) {
-        // Update user display name
+        // Update user display name in Firebase Auth
         await user.updateDisplayName(fullName.trim());
+        await user.reload();
 
-        // Try writing user record into Cloud Firestore
+        // Create comprehensive user profile record in Cloud Firestore under users/{userId}
         try {
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
               .set({
             'uid': user.uid,
+            'displayName': fullName.trim(),
             'fullName': fullName.trim(),
             'email': email.trim(),
+            'photoUrl': user.photoURL ?? '',
+            'role': 'user',
             'createdAt': FieldValue.serverTimestamp(),
+            'createdAtIso': DateTime.now().toIso8601String(),
             'lastLogin': FieldValue.serverTimestamp(),
+            'updatedAt': FieldValue.serverTimestamp(),
+            'totalMeasurements': 0,
+            'appVersion': '1.0.0',
+            'platform': defaultTargetPlatform.name,
           }, SetOptions(merge: true));
+          debugPrint('[AuthService] Created user profile in Firestore for uid: ${user.uid}');
         } catch (dbError) {
           debugPrint('[AuthService] Firestore user record warning: $dbError');
         }
@@ -132,6 +159,64 @@ class AuthService {
       throw _mapFirebaseAuthException(e);
     } catch (e) {
       throw 'Registration failed: $e';
+    }
+  }
+
+  /// Fetches the user profile document from Firestore under users/{userId}
+  Future<Map<String, dynamic>?> getUserProfile([String? uid]) async {
+    final targetUid = uid ?? currentUser?.uid;
+    if (!isFirebaseAvailable || targetUid == null) return null;
+
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(targetUid)
+          .get();
+      return doc.data();
+    } catch (e) {
+      debugPrint('[AuthService] Failed to fetch user profile: $e');
+      return null;
+    }
+  }
+
+  /// Updates user profile details in Firestore
+  Future<bool> updateUserProfile({
+    String? fullName,
+    String? photoUrl,
+    Map<String, dynamic>? extraData,
+  }) async {
+    final user = currentUser;
+    if (!isFirebaseAvailable || user == null) return false;
+
+    try {
+      final Map<String, dynamic> updates = {
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
+      if (fullName != null && fullName.trim().isNotEmpty) {
+        updates['fullName'] = fullName.trim();
+        updates['displayName'] = fullName.trim();
+        await user.updateDisplayName(fullName.trim());
+      }
+
+      if (photoUrl != null) {
+        updates['photoUrl'] = photoUrl;
+        await user.updatePhotoURL(photoUrl);
+      }
+
+      if (extraData != null) {
+        updates.addAll(extraData);
+      }
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .set(updates, SetOptions(merge: true));
+
+      return true;
+    } catch (e) {
+      debugPrint('[AuthService] Failed to update profile: $e');
+      return false;
     }
   }
 
